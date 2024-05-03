@@ -4,6 +4,10 @@
  */
 package daw;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import java.util.List;
+
 /**
  *
  * @author edu
@@ -46,6 +50,12 @@ public class Dialogo extends javax.swing.JFrame {
 
         jLabel3.setText("Confirmacion Contraseña");
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         jButton1.setText("Ver/Ocultar contraseñas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,6 +74,18 @@ public class Dialogo extends javax.swing.JFrame {
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
+
+        jPasswordField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField2ActionPerformed(evt);
             }
         });
 
@@ -134,6 +156,32 @@ public class Dialogo extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String link = "usuario.csv";
+        boolean encontrado = false;
+        List<String> lista = Ficheros.LeerFichero(link);
+        if (!(jPasswordField1.getText().equalsIgnoreCase(jPasswordField2.getText()))) {
+            JOptionPane.showMessageDialog(null,
+                    "La contraseña no coinciden, vuelve a introducirla");
+        }
+        for (String nomContr : lista) {
+            String[] split = nomContr.split(",");
+            if (jTextField1.getText().equalsIgnoreCase(split[0])
+                    || jPasswordField1.getText().equalsIgnoreCase(split[1])) {
+                JOptionPane.showMessageDialog(null,
+                        "Ese usuario o contraseña ya existe");
+                encontrado = true;
+                break;
+            }
+        }
+        if (!encontrado) {
+            Ficheros.escribirLista(lista, link, jTextField1.getText(),
+                    jPasswordField1.getText());
+            JOptionPane.showMessageDialog(null,
+                    "Registro completado con exito");
+            Panel p = new Panel();
+            p.setVisible(true);
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -142,6 +190,18 @@ public class Dialogo extends javax.swing.JFrame {
         p.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
+
+    private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField2ActionPerformed
 
     /**
      * @param args the command line arguments

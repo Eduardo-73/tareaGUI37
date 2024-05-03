@@ -4,11 +4,13 @@
  */
 package daw;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,10 +19,23 @@ import java.util.List;
  */
 public class Ficheros {
 
-    public static void escribirLista(List<String> lista, String url) {
+    public static List<String> LeerFichero(String url) {
+        List<String> lineas = new ArrayList<>();
         try {
-            Files.write(Paths.get(url), lista, StandardCharsets.UTF_8,
-                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            lineas = Files.readAllLines(Paths.get(url),
+                    StandardCharsets.UTF_8);
+            lineas.remove(0);
+        } catch (IOException ex) {
+            System.out.println("Error leyendo el fichero");
+        }
+        return lineas;
+    }
+
+    public static void escribirLista(List<String> lista, String url, String nombre,
+            String contraseña) {
+        lista.add(nombre + "," + contraseña + "\n");
+        try  (FileWriter fila = new FileWriter(url, true)){
+            fila.write(lista.get(lista.size() - 1));
         } catch (IOException ioe) {
             System.out.println("Error creando el fichero");
         }

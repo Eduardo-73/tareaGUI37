@@ -4,6 +4,9 @@
  */
 package daw;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author edu
@@ -48,6 +51,12 @@ public class Panel extends javax.swing.JFrame {
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Contraseña:");
+
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setForeground(new java.awt.Color(0, 0, 0));
@@ -125,6 +134,25 @@ public class Panel extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String link = "usuario.csv";
+        boolean encontrado = false;
+        List<String> listaUsu = Ficheros.LeerFichero(link);
+        listaUsu.forEach(System.out::println);
+        for (String nomContr : listaUsu) {
+            String[] split = nomContr.split(",");
+            if (jTextField1.getText().equalsIgnoreCase(split[0])
+                    && jPasswordField1.getText().equalsIgnoreCase(split[1])) {
+                encontrado = true;
+                break;
+            }
+        }
+        if (encontrado) {
+            JOptionPane.showMessageDialog(null,
+                    "Usuario encontrado con exito");
+        } else {
+            JOptionPane.showMessageDialog(null,
+                    "Usuario no encontrado con exito");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -138,6 +166,10 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     /**
      * @param args the command line arguments
