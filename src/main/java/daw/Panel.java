@@ -136,12 +136,11 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
         String link = "usuario.csv";
         boolean encontrado = false;
-        List<String> listaUsu = Ficheros.LeerFichero(link);
+        List<POJO> listaUsu = Ficheros.leerFichero(link);
         listaUsu.forEach(System.out::println);
-        for (String nomContr : listaUsu) {
-            String[] split = nomContr.split(",");
-            if (jTextField1.getText().equalsIgnoreCase(split[0])
-                    && jPasswordField1.getText().equalsIgnoreCase(split[1])) {
+        for (POJO usu : listaUsu) {
+            if (jTextField1.getText().equalsIgnoreCase(usu.getUsu())
+                    && jPasswordField1.getText().equalsIgnoreCase(usu.getContr())) {
                 encontrado = true;
                 break;
             }

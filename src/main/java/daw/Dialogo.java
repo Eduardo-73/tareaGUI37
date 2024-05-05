@@ -5,6 +5,7 @@
 package daw;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.JOptionPane;
 import java.util.List;
 
@@ -158,23 +159,29 @@ public class Dialogo extends javax.swing.JFrame {
         // TODO add your handling code here:
         String link = "usuario.csv";
         boolean encontrado = false;
-        List<String> lista = Ficheros.LeerFichero(link);
+        String nombre = "", contrasenia = "";
+        List<POJO> lista = Ficheros.leerFichero(link);
         if (!(jPasswordField1.getText().equalsIgnoreCase(jPasswordField2.getText()))) {
             JOptionPane.showMessageDialog(null,
                     "La contraseña no coinciden, vuelve a introducirla");
+            return;
         }
-        for (String nomContr : lista) {
-            String[] split = nomContr.split(",");
-            if (jTextField1.getText().equalsIgnoreCase(split[0])
-                    || jPasswordField1.getText().equalsIgnoreCase(split[1])) {
-                JOptionPane.showMessageDialog(null,
-                        "Ese usuario o contraseña ya existe");
+        for (Iterator<POJO> iterator = lista.iterator(); iterator.hasNext();) {
+            POJO usu = iterator.next();
+            if (jTextField1.getText().equalsIgnoreCase(usu.getUsu())) {
+                nombre = usu.getUsu();
+                contrasenia = usu.getContr();
+                iterator.remove();
                 encontrado = true;
                 break;
             }
         }
-        if (!encontrado) {
-            Ficheros.escribirLista(lista, link, jTextField1.getText(),
+        if (encontrado) {
+            Ficheros.escribirLista(link, nombre, contrasenia);
+            JOptionPane.showMessageDialog(null,
+                    "Contraseña actualizada");
+        } else {
+            Ficheros.escribirLista(link, jTextField1.getText(),
                     jPasswordField1.getText());
             JOptionPane.showMessageDialog(null,
                     "Registro completado con exito");
