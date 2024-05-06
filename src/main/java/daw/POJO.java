@@ -43,5 +43,4 @@ public class POJO {
         sb.append('}');
         return sb.toString();
     }
-
 }

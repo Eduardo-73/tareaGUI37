@@ -166,29 +166,28 @@ public class Dialogo extends javax.swing.JFrame {
                     "La contraseña no coinciden, vuelve a introducirla");
             return;
         }
-        for (Iterator<POJO> iterator = lista.iterator(); iterator.hasNext();) {
-            POJO usu = iterator.next();
-            if (jTextField1.getText().equalsIgnoreCase(usu.getUsu())) {
-                nombre = usu.getUsu();
-                contrasenia = usu.getContr();
-                iterator.remove();
+
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getUsu().equals(jTextField1.getText())) {
+                lista.get(i).setContr(jPasswordField1.getText());
                 encontrado = true;
+                JOptionPane.showMessageDialog(null,
+                        "Contraseña actualizada");
                 break;
             }
         }
-        if (encontrado) {
-            Ficheros.escribirLista(link, nombre, contrasenia);
-            JOptionPane.showMessageDialog(null,
-                    "Contraseña actualizada");
-        } else {
-            Ficheros.escribirLista(link, jTextField1.getText(),
-                    jPasswordField1.getText());
+
+        if (!encontrado) {
+            lista.add(new POJO(jTextField1.getText(),
+                    jPasswordField1.getText()));
             JOptionPane.showMessageDialog(null,
                     "Registro completado con exito");
-            Panel p = new Panel();
-            p.setVisible(true);
-            this.setVisible(false);
         }
+
+        Ficheros.escribirLista(link, lista);
+        Panel p = new Panel();
+        p.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

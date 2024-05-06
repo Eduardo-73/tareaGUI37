@@ -47,14 +47,23 @@ public class Ficheros {
         return lista;
     }
 
-    public static void escribirLista(String url, String nombre,
-            String contraseña) {
+    public static void escribirLista(String url, List<POJO> lista) {
         List<String> fichero = new ArrayList<>();
-        fichero.add(nombre + "," + contraseña + "\n");
-        try (FileWriter fila = new FileWriter(url, true)) {
-            fila.write(fichero.get(fichero.size() - 1));
+        fichero.add("usuarios,contraseñas");
+        String txt = escribirCSV(lista);
+        fichero.add(txt);
+        try {
+            Files.write(Paths.get(url), fichero);
         } catch (IOException ioe) {
             System.out.println("Error creando el fichero");
         }
+    }
+
+    private static String escribirCSV(List<POJO> lista) {
+        String txt = "";
+        for (POJO pojo : lista) {
+            txt += pojo.getUsu() + "," + pojo.getContr() + "\n";
+        }
+        return txt;
     }
 }
